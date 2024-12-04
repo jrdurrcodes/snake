@@ -23,6 +23,8 @@ class Game {
 
         this.dx = 10
         this.dy = 0
+
+        this.speed = 100
     }
 
     init() {
@@ -79,8 +81,46 @@ class Game {
         snake.unshift(head)
         
         snake.pop()
+    }
 
+    //change direction
+    changeDirection(e) {
 
+        const LEFT = 37
+        const RIGHT = 39
+        const UP = 38
+        const DOWN = 40
+
+        if (this.changingDirection) return
+        this.changingDirection = true
+
+        const keyPressed = e.keyCode
+        
+
+        const goingUp = this.dy === -10
+        const goingDown = this.dy === 10
+        const goingRight = this.dx === 10
+        const goingLeft = this.dx === -10
+
+        if (keyPressed === LEFT && !goingRight) {
+            this.dx = -10
+            this.dy = 0
+        }
+
+        if (keyPressed === UP && !goingDown) {
+            this.dx = 0
+            this.dy = -10
+        }
+
+        if (keyPressed === RIGHT && !goingLeft) {
+            this.dx = 10
+            this.dy = 0
+        }
+
+        if (keyPressed === DOWN && !goingUp) {
+            this.dx = 0
+            this.dy = 10
+        }
     }
 }
 
@@ -89,4 +129,6 @@ const snake = new Game()
 
 snake.init()
 
-
+document.addEventListener('keydown', ()=> {
+    snake.changeDirection(event)
+})
